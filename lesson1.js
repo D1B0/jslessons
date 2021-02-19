@@ -6,6 +6,6 @@ alert("по Фаренгейту = " + Tf);
 console.log(Tc);
 console.log(Tf);
 
-let nameId = "Василий";
-let admin = nameId;
+let name = "Василий";
+let admin = name;
 console.log(admin);
