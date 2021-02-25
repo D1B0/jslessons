@@ -2,6 +2,8 @@
 //свитч и числа
 let a = 5
 switch (a) {
+    case 0:
+        console.log(a++)
     case 1:
         console.log(a++)
     case 2:
@@ -34,7 +36,7 @@ switch (a) {
         console.log(a++)
         break;
     default:
-        console.log("число не от 1 до 15, или это не число вовсе");
+        console.log("число не от 0 до 15, или это не число вовсе");
         break;
 }
 
