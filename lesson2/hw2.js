@@ -46,7 +46,7 @@ if (a >= 0 && b >= 0) {
     c = a - b;
 } else if (a < 0 && b < 0) {
     c = a * b;
-} else if (a < 0 && b >= 0 || a >= 0 && b < 0)
+} else
     c = a + b;
 console.log(c);
 
@@ -72,21 +72,21 @@ divide(6, 3)
 function mathOperation(arg1, arg2, operation) {
     switch (operation) {
         case "summary":
-            return arg1 + arg2;
+            return summary(arg1, arg2);
         case "substraction":
-            return arg1 - arg2;
+            return substraction(arg1, arg2);
         case "multiply":
-            return arg1 * arg2;
+            return multiply(arg1, arg2);
         case "divide":
-            return arg1 / arg2;
+            return divide(arg1, arg2);
         default:
             console.log("это не арифметическая функция")
             break;
 
     }
 }
-mathOperation(4, 7, "substraction");
 mathOperation(4, 7, "summary");
+mathOperation(4, 7, "substraction");
 mathOperation(4, 7, "multiply");
 mathOperation(4, 7, "divide");
 
