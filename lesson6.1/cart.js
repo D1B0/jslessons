@@ -1,6 +1,6 @@
 const catalogItem = {
     render(goodCat) {
-        return `<div class="good">
+        return `<div id="catalog__block" class="good">
                     <img class="imgItem" id="${goodCat.id}" src=${goodCat.imagee}>
                     <div ><b>Наименование</b>: ${goodCat.product_name}</div>
                     <div><b>Стоимость</b>: ${goodCat.price}</div>
@@ -18,7 +18,6 @@ const cart = {
     catalogItem,
     testButton: null,
     modalBlock: null,
-    t: 0,
     goods: [
         {
             id: 123,
@@ -48,61 +47,57 @@ const cart = {
     ],
     goodsCart: [],
     imgMas: [],
-    init() {
+
+    init(catalogBlockClass, cart) {
+        this.catalogBlock = document.querySelector(`.${catalogBlockClass}`);
+        this.cart = cart
         this.cartListBlock = document.querySelector('.cart-list');
         this.cartButton = document.querySelector('.cart-btn');
         this.cartButton.addEventListener('click', this.clearCart.bind(this));
 
         this.catalogListBlock = document.querySelector(".catalog")
-
+        this.modalBlock = document.querySelector("body")
         this.renderCatalog();
-        for (let i = 0; i < this.goods.length; i++) {
-            let testButton = document.querySelectorAll(".testbutton");
-            testButton[i].addEventListener('click', this.addToCart.bind(this));
-        }
+
+        document.getElementById("catalog_block")
+            .addEventListener('click', event => {
+                if (event.target.className === 'testbutton') {
+                    this.addToCart()
+                }
+            });
         this.render()
 
+        document.getElementById("catalog_block")
+            .addEventListener('click', event => {
+                if (event.target.className === 'imgItem') {
+                    this.startGallery()
+                }
+            });
 
-        this.modalBlock = document.querySelector("body")
-        for (let i = 0; i < this.goods.length; i++) {
-            let galeryImg = document.querySelectorAll(".imgItem")
-            galeryImg[i].addEventListener("click", this.startGallery.bind(this))
-
-        }
-
+        this.t = 0
     },
     startGallery() {
-        // this.goods.find(item => item.id === Number(event.target.id).images
-        // console.log(this.goods.find(item => item.id === Number(event.target.images)));
         this.modalBlock.classList.remove("hidden");
         this.imgMas.push(Object.assign({}, this.goods.find(item => item.id === Number(event.target.id)).images));
         console.log(Object.values(this.imgMas[0]));
         this.imgMas = Object.values(this.imgMas[0])
-
         this.createModal()
     },
     createModal() {
 
-        this.modalBlock.insertAdjacentHTML("beforeend", `<div class="image__block"></div>`)
+        this.modalBlock.insertAdjacentHTML("beforeend", `<div class="image__block">
+        <button class="left__button">Пред</button>
+        <img src="${this.imgMas[this.t]}" class="img">
+        <button class="right__button">След</button>
+        <button class="close__button">X</button>
+        </div> `)
         this.modalBlock = document.querySelector(".image__block")
-        this.modalBlock.textContent = ""
-        let imgButtonLeft = document.querySelector(".image__block")
-        imgButtonLeft.insertAdjacentHTML("beforeend", `<button class="left__button">Пред</button>`)
         imgButtonLeft = document.querySelector(".left__button")
         imgButtonLeft.addEventListener("click", this.minus.bind(this))
-        let imgToken = document.querySelector(".image__block")
-        imgToken.insertAdjacentHTML("beforeend", `<img src="${this.imgMas[this.t]}" class="img">`)
-        imgToken.querySelector(".img")
-        let imgButtonRight = document.querySelector(".image__block")
-        imgButtonRight.insertAdjacentHTML("beforeend", `<button class="right__button">След</button>`)
-        imgButtonRight = document.querySelector(".right__button")
+        let imgButtonRight = document.querySelector(".right__button")
         imgButtonRight.addEventListener("click", this.plus.bind(this))
-        let imgCloseButton = document.querySelector(".image__block")
-        imgCloseButton.insertAdjacentHTML("beforeend", `<button class="close__button">X</button>`)
-        imgCloseButton = document.querySelector(".close__button")
+        let imgCloseButton = document.querySelector(".close__button")
         imgCloseButton.addEventListener("click", this.endGallery.bind(this))
-
-
     },
     plus() {
         this.t += 1
@@ -110,8 +105,8 @@ const cart = {
         if (this.t === this.imgMas.length) {
             this.t = 0
         }
+        this.modalBlock.textContent = ""
         this.createModal()
-
     },
     minus() {
         console.log(this.t);
@@ -119,14 +114,14 @@ const cart = {
         if (this.t < 0) {
             this.t = 3
         }
+        this.modalBlock.textContent = ""
         this.createModal()
-
     },
     endGallery() {
         this.imgMas = []
+        this.modalBlock.textContent = ""
         this.modalBlock.classList.toggle("hidden");
         this.t = 0
-
     },
     render() {
         this.cartListBlock.textContent = ''
@@ -137,18 +132,15 @@ const cart = {
             let cartBlockBox = document.querySelector(".cart-list")
 
             for (let key in this.goodsCart) {
-                cartBlockBox.insertAdjacentHTML("beforeend", `<div class="items"></div>`)
-                let items = document.querySelectorAll(".items")
-                items[key].insertAdjacentHTML("beforeend", `<p id="${this.goodsCart[key].id}">Название товара: ${this.goodsCart[key].product_name}</p>`)
-                items[key].insertAdjacentHTML("beforeend", `<p>Цена на товар: ${this.goodsCart[key].price}</p>`)
-                items[key].insertAdjacentHTML("beforeend", `<p>Количество: ${this.goodsCart[key].quantity}</p>`)
+                cartBlockBox.insertAdjacentHTML("beforeend", `<div class="items"></div>
+                    <p id="${this.goodsCart[key].id}">Название товара: ${this.goodsCart[key].product_name}</p>
+                    <p>Цена на товар: ${this.goodsCart[key].price}</p>
+                    <p>Количество: ${this.goodsCart[key].quantity}</p>`)
             }
             let cartInfo = document.querySelector(".cart-list")
             cartInfo.insertAdjacentHTML("beforeend", `<p class="total__info">В вашей корзине ${this.goodsCart.length} позиций ${this.getCartQuantity()} товаров по цене <b>${this.getCartPrice()}</b></p>`)
 
         }
-
-
     },
     renderCatalog() {
         this.goods.forEach(goodCat => {
@@ -166,7 +158,7 @@ const cart = {
 
     addToCart() {
         if (this.goodsCart.find(item => item.id === Number(event.target.id)) === undefined) {
-            cart.goodsCart.push(Object.assign({}, this.goods.find(item => item.id === Number(event.target.id))))
+            this.goodsCart.push(Object.assign({}, this.goods.find(item => item.id === Number(event.target.id))))
             console.log(this.goodsCart)
             this.render()
         } else {
@@ -184,6 +176,6 @@ const cart = {
 
 };
 
-cart.init();
+cart.init('catalog', cart);
 
 

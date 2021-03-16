@@ -41,6 +41,16 @@
             z-index: 101;
         }
 
+        .inside {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 102;
+
+            top: 0;
+        }
+
         .img {
 
             width: 500px;
@@ -64,7 +74,7 @@
 </head>
 
 <body>
-    <div class="catalog">
+    <div id="catalog_block" class="catalog">
     </div>
 
     <div class="cart-list"></div>
