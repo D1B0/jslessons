@@ -153,21 +153,23 @@ const product = {
         let block = document.getElementById("catalog");
         block.style.cssText = "display: flex; justify-content: space-between; flex-wrap : wrap"
         for (let key in this.goods) {
-            let productItem = document.createElement('div');
-            productItem.style.cssText = "width: 300px; height: 300px; border: 1px solid black; margin-bottom:20px; display:flex; flex-direction:column; align-items:center ; box-sizing: border-box";
-            block.appendChild(productItem);
+
+            let productItem = document.querySelector('catalog');
+            productItem.insertAdjacentHTML('beforeend', `<div class="product__item">
+            <img class="product__img" src=${this.goods[key].img}
+            <h3 class="product__name">${this.goods[key].product_name}</h3>
+            <p class="product__price">${this.goods[key].price} рублей</p>
+            </div>`)
 
             let productImg = document.createElement('div')
             productImg.insertAdjacentHTML("beforeend", '<img src=' + this.goods[key].img + '  width="180" height="200">')
             productImg.style.cssText = "width: 180px; height: 200px;"
-            productItem.appendChild(productImg)
             let productName = document.createElement("h3")
-            productName.insertAdjacentHTML("beforeend", this.goods[key].product_name)
-            productItem.appendChild(productName)
+            productName.insertAdjacentHTML("beforeend",)
             productName.style.cssText = 'margin:0'
             let productPrice = document.createElement("p")
-            productPrice.insertAdjacentHTML("beforeend", this.goods[key].price + "  рублей")
-            productItem.appendChild(productPrice)
+            productPrice.insertAdjacentHTML("beforeend", + "  рублей")
+
             productPrice.style.cssText = 'margin:0'
 
         }

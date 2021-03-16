@@ -7,11 +7,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<style>
+    .catalog {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap
+    }
+
+    .product__img {
+        width: 180px;
+        height: 200px;
+    }
+
+    .product__item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 1px solid black;
+    }
+</style>
 
 <body>
     <div class="cart"></div>
     <div id="catalog"></div>
-    <img src="" alt="">
 
     <script>
         const chess = {
@@ -166,24 +184,13 @@
             addToCatalog() {
                 let block = document.getElementById("catalog");
                 block.style.cssText = "display: flex; justify-content: space-between; flex-wrap : wrap"
+                let productItem = document.getElementById('catalog');
                 for (let key in this.goods) {
-                    let productItem = document.createElement('div');
-                    productItem.style.cssText = "width: 300px; height: 300px; border: 1px solid black; margin-bottom:20px; display:flex; flex-direction:column; align-items:center ; box-sizing: border-box";
-                    block.appendChild(productItem);
-
-                    let productImg = document.createElement('div')
-                    productImg.insertAdjacentHTML("beforeend", '<img src=' + this.goods[key].img + '  width="180" height="200">')
-                    productImg.style.cssText = "width: 180px; height: 200px;"
-                    productItem.appendChild(productImg)
-                    let productName = document.createElement("h3")
-                    productName.insertAdjacentHTML("beforeend", this.goods[key].product_name)
-                    productItem.appendChild(productName)
-                    productName.style.cssText = 'margin:0'
-                    let productPrice = document.createElement("p")
-                    productPrice.insertAdjacentHTML("beforeend", this.goods[key].price + "  рублей")
-                    productItem.appendChild(productPrice)
-                    productPrice.style.cssText = 'margin:0'
-
+                    productItem.insertAdjacentHTML('beforeend', `<div class="product__item">
+            <img class="product__img" src=${this.goods[key].img}
+            <h3 class="product__name">${this.goods[key].product_name}</h3>
+            <p class="product__price">${this.goods[key].price} рублей</p>
+            </div>`)
                 }
             }
 
