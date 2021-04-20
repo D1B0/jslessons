@@ -7,7 +7,7 @@ const products = [
     { id: 5 }
 ];
 
-const renderProduct = (title = "Йо, а где имя", price = "Все уронили") => {
+const renderProduct = (title = "Йо, а где имя", price = "Цену уронили") => {
     return `<div class="product-item">
                 <h3 class="product-item__head">${title}</h3>
                 <p class="product-item__price">${price}</p>
