@@ -85,7 +85,7 @@ class ProductList {
         for (let i = 0; i < checkedBoxes.length; i++) {
             let stuffings = 0
             stuffings = checkedBoxes[i].id;
-            totalCalories += this.allProducts[stuffings].calories;
+            totalCalories += this.allProducts.find(item => item.id === Number(stuffings)).calories;
         }
         return totalCalories;
 
