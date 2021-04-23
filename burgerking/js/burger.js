@@ -6,7 +6,7 @@ class ProductList {
         this.stuffing = [];
         this.topping = [];
         this.allProducts = [];
-        this.checkType = [];
+
 
 
         this.fetchBurgerSize();
