@@ -16,6 +16,18 @@
     background: blueviolet;
 }
 
+.basket {
+    height: 300px;
+    display: flex;
+    align-items: center;
+    background: rgb(171, 102, 236);
+}
+
+.basket__items {
+    display: flex;
+    align-items: center;
+}
+
 .heading__main {
     color: white;
     text-decoration: none;
@@ -54,6 +66,10 @@
     justify-content: space-around;
     align-items: center;
     border-radius: 10px;
+}
+
+.basket__desc {
+    margin-right: 20px;
 }
 
 .desc__head {
