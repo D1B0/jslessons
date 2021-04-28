@@ -128,21 +128,23 @@ class ProductList {
             this._basketProduct.push(productObject);
             block.insertAdjacentHTML('afterbegin', productObject.render());
         }
-
     }
 
     addToBasket() {
-        this._basketProduct = []
+
 
         let basketToken = this._basketGoods.find(item => item.id_product === Number(event.target.id))
         let basketFoo = this._goods.find(item => item.id_product === Number(event.target.id))
         basketFoo["quantity"] = 1
         if (basketToken === undefined) {
             this._basketGoods.push(Object.assign({}, basketFoo))
-            console.log(basketToken);
+            this._basketProduct = []
             this.renderBasket()
-        } else basketToken.quantity += 1
-        this.renderBasket()
+        } else {
+            basketToken.quantity += 1
+            this._basketProduct = []
+            this.renderBasket()
+        }
 
     }
     deleteItem() {
