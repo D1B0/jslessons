@@ -2,29 +2,29 @@ const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-a
 
 // Переделать в ДЗ не использовать fetch а Promise
 
-let getRequest = (url) => {
-    return new Promise((resolve, reject) => {
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', url, true);
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState === 4) {
-                resolve(xhr.response)
-                if (xhr.status !== 200) {
-                    reject('Error');
-                } else {
-                    reject(xhr.responseText);
-                }
-            }
-        };
+// let getRequest = (url) => {
+//     return new Promise((resolve, reject) => {
+//         let xhr = new XMLHttpRequest();
+//         xhr.open('GET', url, true);
+//         xhr.onreadystatechange = () => {
+//             if (xhr.readyState === 4) {
+//                 resolve(xhr.response)
+//                 if (xhr.status !== 200) {
+//                     reject('Error');
+//                 } else {
+//                     reject(xhr.responseText);
+//                 }
+//             }
+//         };
 
-        xhr.send();
+//         xhr.send();
 
-    })
-}
+//     })
+// }
 
-getRequest(`${API}/catalogData.json`)
-    .then(response => console.log(response))
-    .catch(error => console.log(error))
+// getRequest(`${API}/catalogData.json`)
+//     .then(response => console.log(response))
+//     .catch(error => console.log(error))
 
 class ProductList {
 
@@ -53,7 +53,7 @@ class ProductList {
             .then((data) => {
                 this._basketGoods = data.contents;
 
-                this.renderBasketStart()
+                this.renderBasket()
                 this._renderAllQuantityAndPrice()
                 document.getElementById("basket__id")
                     .addEventListener('click', event => {
@@ -92,12 +92,12 @@ class ProductList {
 
     _cartCost() {
 
-        return this._basketProduct.reduce((totalCost, cartItem) => totalCost + cartItem.price * cartItem.quantity, 0)
+        return this._basketGoods.reduce((totalCost, cartItem) => totalCost + cartItem.price * cartItem.quantity, 0)
 
     }
     _cartQuantity() {
 
-        return this._basketProduct.reduce((totalQuantity, cartItem) => totalQuantity + cartItem.quantity, 0)
+        return this._basketGoods.reduce((totalQuantity, cartItem) => totalQuantity + cartItem.quantity, 0)
     }
 
 
@@ -119,9 +119,10 @@ class ProductList {
             });
 
     }
-    renderBasketStart() {
+    renderBasket() {
         this._renderAllQuantityAndPrice()
         const block = document.querySelector(".basket__items");
+        block.innerHTML = ""
         for (const basket of this._basketGoods) {
             const productObject = new BasketItem(basket);
             this._basketProduct.push(productObject);
@@ -129,48 +130,41 @@ class ProductList {
         }
 
     }
-    basketBox() {
-        this._renderAllQuantityAndPrice()
-        const block = document.querySelector(".basket__items");
-        block.innerHTML = ""
-        for (let basket of this._basketProduct) {
-            let basketToken = new BasketItem(basket)
-            block.insertAdjacentHTML('afterbegin', basketToken.render());
-        }
 
-
-
-
-    }
     addToBasket() {
-        let basketToken = this._basketProduct.find(item => item.id_product === Number(event.target.id))
-        let basketFoo = this._basketGoods.find(item => item.id_product === Number(event.target.id))
+        this._basketProduct = []
+
+        let basketToken = this._basketGoods.find(item => item.id_product === Number(event.target.id))
+        let basketFoo = this._goods.find(item => item.id_product === Number(event.target.id))
+        basketFoo["quantity"] = 1
         if (basketToken === undefined) {
-            this._basketProduct.push(Object.assign({}, basketFoo))
-            this.basketBox()
+            this._basketGoods.push(Object.assign({}, basketFoo))
+            console.log(basketToken);
+            this.renderBasket()
         } else basketToken.quantity += 1
-        this.basketBox()
-        console.log(this._basketProduct);
+        this.renderBasket()
+
     }
     deleteItem() {
-        let basketToken = this._basketProduct.findIndex(item => item.id_product === Number(event.target.id))
-        this._basketProduct.splice(basketToken, 1)
-        this.basketBox()
+        this._basketProduct = []
+        let basketToken = this._basketGoods.findIndex(item => item.id_product === Number(event.target.id))
+        this._basketGoods.splice(basketToken, 1)
+        this.renderBasket()
 
     }
     deleteAllItems() {
         this._basketProduct = []
-        this.basketBox()
+        this._basketGoods = []
+        this.renderBasket()
     }
 }
 
 
 class ProductItem {
-    constructor(product, img = 'https://via.placeholder.com/200x150') {
+    constructor(product, img = 'https://via.placeholder.com/200x150', quantity = 1) {
         this.id_product = product.id_product
         this.product_name = product.product_name;
         this.price = product.price;
-        this.quantity = product.quantity
         this.img = img;
     }
 
@@ -186,12 +180,9 @@ class ProductItem {
     }
 }
 
-class BasketItem {
+class BasketItem extends ProductItem {
     constructor(product, img = 'https://via.placeholder.com/200x150') {
-        this.id_product = product.id_product
-        this.product_name = product.product_name;
-        this.price = product.price;
-        this.img = img;
+        super(product)
         this.quantity = product.quantity
     }
 
