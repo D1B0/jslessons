@@ -3,7 +3,7 @@
     padding: 0;
 }
 
-.container {
+.box {
     padding-left: calc(50% - 570px);
     padding-right: calc(50% - 570px);
 }
@@ -30,37 +30,45 @@
     color: white;
 }
 
+.products__block {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
 .products {
     padding-top: 30px;
     padding-bottom: 300px;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     background: turquoise;
 }
 
 .product-item {
     background: cornflowerblue;
     width: 200px;
-    height: 200px;
+    height: 250px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    border-radius: 10px;
 }
 
-.product-item__head {
+.desc__head {
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-weight: 300;
     font-size: 20px;
     color: white;
 }
 
-.product-item__price {
+.desc__price {
     color: yellow;
     font-weight: 400;
 }
 
-.by-btn {
+.buy-btn {
     outline: none;
     border-radius: 10px;
     color: white;
