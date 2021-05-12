@@ -9,46 +9,47 @@ Vue.component('cart', {
       }
     },
     methods: {
-        addProduct(product){
-            let find = this.cartItems.find(el => el.id_product === product.id_product);
-            if(find){
-                this.$parent.putJson(`/api/cart/${find.id_product}`, {quantity: 1});
-                find.quantity++;
-                this.$parent.postJson('/api/statistic', {action: "change", product })
-                // let statistic =Object.assign({action:"change" quantity: 1}, product);
-                // this.$parent.putJson('/api/statistic', statistic)
-
-            } else {
-                let prod = Object.assign({quantity: 1}, product);
-                this.$parent.postJson('/api/cart', prod)
-                  .then(data => {
-                      if (data.result === 1) {
-                          this.cartItems.push(prod);
-                      }
-                  });
-                // let statistic =Object.assign({action:"add"}, product);
-                this.$parent.postJson('/api/statistic', {action: "add", product })
-
-
-            }
+ 
+            addProduct(product){
+                let find = this.cartItems.find(el => el.id_product === product.id_product);
+                if(find){
+                    this.$parent.putJson(`/api/cart/${find.id_product}`, {quantity: 1});
+                    find.quantity++;
+                    this.$parent.postJson('/api/statistic', {action: "delete",datetime: new Date, product })
+                    // let statistic =Object.assign({action:"change" quantity: 1}, product);
+                    // this.$parent.putJson('/api/statistic', statistic)
+    
+                } else {
+                    let prod = Object.assign({quantity: 1}, product);
+                    this.$parent.postJson('/api/cart', prod)
+                      .then(data => {
+                          if (data.result === 1) {
+                              this.cartItems.push(prod);
+                          }
+                      });
+                    // let statistic =Object.assign({action:"add"}, product);
+                    this.$parent.postJson('/api/statistic', {action: "delete",datetime: new Date, product })
+    
+    
+                }
+            },
+            remove(item) {
+                this.$parent.deleteJson(`api/cart` , item)
+                    .then(data => {
+                        if (data.result === 1) {
+                            if (item.quantity > 1) {
+                                item.quantity--;
+                                this.$parent.postJson('/api/statistic', {action: "delete",datetime: new Date, item })
+                            } else {
+                                this.$parent.postJson('/api/statistic', {action: "delete",datetime: new Date, item })
+                                this.cartItems.splice(this.cartItems.indexOf(item), 1)
+    
+                            }
+                        }}
+                    )
+    
         },
-        remove(item) {
-            this.$parent.deleteJson(`api/cart` , item)
-                .then(data => {
-                    if (data.result === 1) {
-                        if (item.quantity > 1) {
-                            item.quantity--;
-                            this.$parent.postJson('/api/statistic', {action: "change", item })
-                        } else {
-                            this.$parent.postJson('/api/statistic', {action: "delete", item })
-                            this.cartItems.splice(this.cartItems.indexOf(item), 1)
-
-                        }
-                    }}
-                )
-
-    },
-    },
+        },
     mounted(){
         this.$parent.getJson('/api/cart')
             .then(data => {
