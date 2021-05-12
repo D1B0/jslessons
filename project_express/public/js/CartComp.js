@@ -15,7 +15,7 @@ Vue.component('cart', {
                 if(find){
                     this.$parent.putJson(`/api/cart/${find.id_product}`, {quantity: 1});
                     find.quantity++;
-                    this.$parent.postJson('/api/statistic', {action: "delete",datetime: new Date, product })
+                    this.$parent.postJson('/api/statistic', {action: "change",datetime: new Date, product })
                     // let statistic =Object.assign({action:"change" quantity: 1}, product);
                     // this.$parent.putJson('/api/statistic', statistic)
     
@@ -28,7 +28,7 @@ Vue.component('cart', {
                           }
                       });
                     // let statistic =Object.assign({action:"add"}, product);
-                    this.$parent.postJson('/api/statistic', {action: "delete",datetime: new Date, product })
+                    this.$parent.postJson('/api/statistic', {action: "add",datetime: new Date, product })
     
     
                 }
@@ -39,7 +39,7 @@ Vue.component('cart', {
                         if (data.result === 1) {
                             if (item.quantity > 1) {
                                 item.quantity--;
-                                this.$parent.postJson('/api/statistic', {action: "delete",datetime: new Date, item })
+                                this.$parent.postJson('/api/statistic', {action: "change",datetime: new Date, item })
                             } else {
                                 this.$parent.postJson('/api/statistic', {action: "delete",datetime: new Date, item })
                                 this.cartItems.splice(this.cartItems.indexOf(item), 1)
