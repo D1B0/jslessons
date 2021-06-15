@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<button id="DateButton" class="date">Калькулятор дат</button>
+<button id="Timer" class="time-type">Таймер</button>
+<div class="date-box hidden" id="date-12">
+  <form id="dateForm">
+    <h2>Калькулятор дат</h2>
+    <label for="data1">
+      <input type="date" id="data1" name="data1">
+    </label>
+    <label for="data2">
+      <input type="date" id="data2" name="data2">
+    </label>
+    <button type="submit">Раститать промежуток</button>
+  </form>
+  <p class="message"></p>
+</div>
+<div class="timer-box hidden" id="time1">
+
+  <input type="text" name="time" id="time">
+  <button id="button">Старт</button>
+  <div id="timer1"></div>
+  <button id="sound-off">Стоп музыки</button>
+
+</div>
+</body>
+</html>
