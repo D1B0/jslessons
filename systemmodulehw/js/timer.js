@@ -9,9 +9,10 @@ let timerShow = document.getElementById("timer1");
 
 
 buttonRun.addEventListener('click', function () {
+    let timer
     let timeMinute = parseInt(timerInput.value) * 60
     timerShow.innerHTML = "";
-    let timer = setInterval(function () {
+    timer = setInterval(function () {
         let seconds = timeMinute % 60
         let minutes = timeMinute / 60 % 60
         let hour = timeMinute / 60 / 60 % 60
